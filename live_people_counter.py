@@ -4,26 +4,26 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-# Define historical population estimates and births between benchmarks based on the updated projections
+# Define historical population estimates and births between benchmarks based on updated projections
 def people_ever_lived():
     periods = [
-        {"start": -190000, "end": -50000, "population": 2, "birth_rate": 80, "births_between": 7856100000},  # 190,000 B.C.E. to 50,000 B.C.E.
-        {"start": -50000, "end": -8000, "population": 2000000, "birth_rate": 80, "births_between": 1137789769},  # 50,000 B.C.E. to 8000 B.C.E.
-        {"start": -8000, "end": 1, "population": 5000000, "birth_rate": 80, "births_between": 46025332354},  # 8000 B.C.E. to 1 C.E.
-        {"start": 1, "end": 1200, "population": 300000000, "birth_rate": 80, "births_between": 26591343000},  # 1 C.E. to 1200 C.E.
-        {"start": 1200, "end": 1650, "population": 450000000, "birth_rate": 60, "births_between": 12782002453},  # 1200 C.E. to 1650 C.E.
-        {"start": 1650, "end": 1750, "population": 500000000, "birth_rate": 60, "births_between": 3171931513},  # 1650 C.E. to 1750 C.E.
-        {"start": 1750, "end": 1850, "population": 795000000, "birth_rate": 50, "births_between": 4046240009},  # 1750 C.E. to 1850 C.E.
-        {"start": 1850, "end": 1900, "population": 1265000000, "birth_rate": 40, "births_between": 2900237856},  # 1850 C.E. to 1900 C.E.
-        {"start": 1900, "end": 1950, "population": 1656000000, "birth_rate": 31, "births_between": 3390198215},  # 1900 C.E. to 1950 C.E.
-        {"start": 1950, "end": 2000, "population": 2499000000, "birth_rate": 22, "births_between": 6064994884},  # 1950 C.E. to 2000 C.E.
-        {"start": 2000, "end": 2022, "population": 6149000000, "birth_rate": 17, "births_between": 1690275115},  # 2000 C.E. to 2022 C.E.
-        {"start": 2023, "end": 2024, "population": 8050000000, "birth_rate": 17, "births_between": 1090000000},   # 2023 to 2024 C.E.
+        {"start": -190000, "end": -50000, "population": 2, "birth_rate": 80, "births_between": 7856100000},  # 190,000 AC to 50,000 AC
+        {"start": -50000, "end": -8000, "population": 2000000, "birth_rate": 80, "births_between": 1137789769},  # 50,000 AC to 8,000 AC
+        {"start": -8000, "end": 1, "population": 5000000, "birth_rate": 80, "births_between": 46025332354},  # 8,000 AC to 1 DC
+        {"start": 1, "end": 1200, "population": 300000000, "birth_rate": 80, "births_between": 26591343000},  # 1 DC to 1200 DC
+        {"start": 1200, "end": 1650, "population": 450000000, "birth_rate": 60, "births_between": 12782002453},  # 1200 DC to 1650 DC
+        {"start": 1650, "end": 1750, "population": 500000000, "birth_rate": 60, "births_between": 3171931513},  # 1650 DC to 1750 DC
+        {"start": 1750, "end": 1850, "population": 795000000, "birth_rate": 50, "births_between": 4046240009},  # 1750 DC to 1850 DC
+        {"start": 1850, "end": 1900, "population": 1265000000, "birth_rate": 40, "births_between": 2900237856},  # 1850 DC to 1900 DC
+        {"start": 1900, "end": 1950, "population": 1656000000, "birth_rate": 31, "births_between": 3390198215},  # 1900 DC to 1950 DC
+        {"start": 1950, "end": 2000, "population": 2499000000, "birth_rate": 22, "births_between": 6064994884},  # 1950 DC to 2000 DC
+        {"start": 2000, "end": 2022, "population": 6149000000, "birth_rate": 17, "births_between": 1690275115},  # 2000 DC to 2022 DC
+        {"start": 2023, "end": 2024, "population": 8050000000, "birth_rate": 17, "births_between": 1090000000},  # 2023 DC to 2024 DC
     ]
 
     total_births = 2  # Start with the smallest initial value to reflect early humanity
     population_data = {"years": [], "total_population": []}  # To store years and population for plotting
-    plot_data = {"years": [], "total_population": []}  # Plot only from year 1 C.E. and every 10 years
+    plot_data = {"years": [], "total_population": []}  # Plot specific years for visualization
 
     # Streamlit display for the live counter and plot
     counter_placeholder = st.empty()
@@ -31,6 +31,7 @@ def people_ever_lived():
 
     # Hardcoded adjustment to reach the exact number for 2024
     adjustment_factor = 117020448575 - 115930445170  # Adjust to reach 117 billion in 2024
+    adjustment_per_year = adjustment_factor / 2  # Spread adjustment across 2023 and 2024
 
     # Calculate the total number of years and determine the sleep time per year
     total_years = sum(period["end"] - period["start"] + 1 for period in periods)
@@ -41,11 +42,8 @@ def people_ever_lived():
     fig, ax = plt.subplots()
     ax.set_xlabel("Year")
     ax.set_ylabel("Total Births")
-    ax.set_title("Evolution of Total Births from Year 1 C.E.")
+    ax.set_title("Evolution of Total Births")
     ax.grid(True)
-
-    # Variable to control how frequently to update the plot (every 10 years)
-    update_interval = 10  # Update the plot every 10 years
 
     # Loop through each period and accumulate the total number of births based on the data provided
     for period in periods:
@@ -55,24 +53,39 @@ def people_ever_lived():
         for year in range(period["start"], period["end"] + 1):
             # Calculate the average yearly births during the period
             yearly_births = births_between / (period["end"] - period["start"] + 1)
+
+            # Apply the adjustment factor in the final two years (2023-2024)
+            if year == 2023 or year == 2024:
+                yearly_births += adjustment_per_year
+
             total_births += yearly_births  # Add yearly births incrementally
             population_data["years"].append(year)
             population_data["total_population"].append(total_births)
 
-            # Update the live counter for all years (using period as decimal separator)
-            counter_placeholder.markdown(f"### Year: {year}, Total Births So Far: **{total_births:,.0f}.**".replace(',', '.'))
+            # Display years as AC for years before 0 and DC for years after 0
+            display_year = f"{abs(year)} AC" if year < 0 else f"{year} DC"
+            
+            # Update the live counter for all years
+            counter_placeholder.markdown(f"### Year: {display_year}, Total Births So Far: **{total_births:,.0f}.**".replace(',', '.'))
 
-            # Only start plotting from year 1 C.E. and update every 10 years
-            if year >= 1 and year % update_interval == 0:
+            # Plot every 10,000 years until year 0, then every 10 years after year 1 DC
+            if (year % 10000 == 0 and year <= 0) or (year % 10 == 0 and year > 0):
                 plot_data["years"].append(year)
                 plot_data["total_population"].append(total_births)
 
-                # Update the plot live every 10 years
+                # Update the plot live
                 ax.clear()
                 ax.plot(plot_data["years"], plot_data["total_population"], label="Total Births", color='blue')
                 ax.set_xlabel("Year")
                 ax.set_ylabel("Total Births")
-                ax.set_title("Evolution of Total Births from Year 1 C.E.")
+                ax.set_title("Evolution of Total Births")
+
+                # Adapt the scale to better visualize years after year 0 (DC)
+                if year >= 0:
+                    ax.set_xlim([0, 2024])  # Focus on the years from year 0 to 2024
+                else:
+                    ax.set_xlim([-190000, 0])  # For years before 0 AC
+
                 ax.grid(True)
 
                 # Improve readability of numbers in the plot
@@ -85,8 +98,6 @@ def people_ever_lived():
                 plot_placeholder.pyplot(fig)
 
             time.sleep(sleep_time)  # Ensure the sleep time fits within the 10 seconds
-
-    total_births += adjustment_factor  # Apply the adjustment at the end to match the expected total for 2024
 
     return total_births, population_data
 
