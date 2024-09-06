@@ -98,3 +98,7 @@ st.write("This app simulates a live counter of the estimated number of people wh
 if st.button('Start Counting'):
     total_people_estimate, population_data = people_ever_lived()
     st.success(f"We estimate that {total_people_estimate:,.0f} people have ever been born on this planet.".replace(',', '.'))
+
+# Footer section
+st.markdown("***")
+st.markdown("Developed by [Jair Ribeiro](https://www.linkedin.com/in/jairribeiro/). For more details, read the full article on [How Many Humans Have Ever Lived on Our Planet?](https://jairribeiro.medium.com/how-many-humans-have-ever-lived-on-our-planet-306f770fc2c4)")
