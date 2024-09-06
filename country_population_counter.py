@@ -32,20 +32,19 @@ def estimate_population_ever_lived(country_data):
             population_data["years"].append(year)
             population_data["total_births"].append(total_births)
 
-            # Update the live plot every few years to show the evolution in real time
-            if year >= 1900:  # Start plotting for modern years
-                fig, ax = plt.subplots()
-                ax.plot(population_data["years"], population_data["total_births"], color="blue")
-                ax.set_xlabel("Year")
-                ax.set_ylabel("Total Births (Millions)")
-                ax.set_title(f"Population Births Evolution for the Selected Country")
-                ax.grid(True)
+            # Update the live plot every year
+            fig, ax = plt.subplots()
+            ax.plot(population_data["years"], population_data["total_births"], color="blue")
+            ax.set_xlabel("Year")
+            ax.set_ylabel("Total Births (Millions)")
+            ax.set_title(f"Population Births Evolution for the Selected Country")
+            ax.grid(True)
 
-                # Update the single plot using the placeholder
-                plot_placeholder.pyplot(fig)
+            # Update the single plot using the placeholder
+            plot_placeholder.pyplot(fig)
 
-                # Add a brief pause to simulate live plotting
-                time.sleep(0.1)
+            # Add a brief pause to simulate live plotting
+            time.sleep(0.05)  # Adjust this time for faster or slower plotting
 
     return total_births, start_year
 
